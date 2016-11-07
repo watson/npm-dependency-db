@@ -1,0 +1,52 @@
+{
+  "name": "npm-dependency-db",
+  "version": "0.0.0",
+  "description": "Query npm dependents of a certain version or version range of a given package",
+  "bin": "cli.js",
+  "scripts": {
+    "test": "standard"
+  },
+  "author": "Thomas Watson Steen <w@tson.dk> (https://twitter.com/wa7son)",
+  "license": "MIT",
+  "dependencies": {
+    "after-all": "^2.0.2",
+    "ansi-diff-stream": "^1.1.1",
+    "debug": "^2.2.0",
+    "hypercore": "^4.14.0",
+    "hyperdrive-archive-swarm": "^5.0.2",
+    "level": "^1.5.0",
+    "mkdirp": "^0.5.1",
+    "normalize-registry-metadata": "^1.1.2",
+    "progress-string": "^1.1.0",
+    "semver": "^5.3.0"
+  },
+  "devDependencies": {
+    "standard": "^8.5.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/watson/npm-dependency-db.git"
+  },
+  "keywords": [
+    "npm",
+    "db",
+    "database",
+    "query",
+    "range",
+    "ranges",
+    "version",
+    "versions",
+    "dependencies",
+    "dependents",
+    "dependency",
+    "module",
+    "modules",
+    "package",
+    "packages",
+    "tree"
+  ],
+  "bugs": {
+    "url": "https://github.com/watson/npm-dependency-db/issues"
+  },
+  "homepage": "https://github.com/watson/npm-dependency-db#readme"
+}
