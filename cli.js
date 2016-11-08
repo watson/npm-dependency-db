@@ -4,8 +4,6 @@
 var pkg = require('./package')
 var db = require('./lib/db')
 
-if (!process.argv[2]) usage(1)
-
 var argv = require('minimist')(process.argv.slice(2))
 
 if (argv.update || argv.u) {
@@ -16,8 +14,10 @@ if (argv.update || argv.u) {
   usage()
 } else if (!db.existsSync()) {
   noCache()
-} else {
+} else if (argv._.length > 0) {
   require('./lib/query').apply(null, argv._)
+} else {
+  usage(1)
 }
 
 function version () {
