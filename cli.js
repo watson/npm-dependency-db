@@ -4,6 +4,8 @@
 var pkg = require('./package')
 var db = require('./lib/db')
 
+process.title = pkg.name
+
 var argv = require('minimist')(process.argv.slice(2))
 
 if (argv.update || argv.u) {
