@@ -16,6 +16,7 @@
     "hypercore": "^4.14.0",
     "hyperdrive-archive-swarm": "^5.0.2",
     "level": "^1.5.0",
+    "minimist": "^1.2.0",
     "mkdirp": "^0.5.1",
     "normalize-registry-metadata": "^1.1.2",
     "progress-string": "^1.1.0",

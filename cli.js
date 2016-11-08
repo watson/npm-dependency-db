@@ -4,26 +4,20 @@
 var pkg = require('./package')
 var db = require('./lib/db')
 
-var cmd = process.argv[2]
+if (!process.argv[2]) usage(1)
 
-if (!cmd) usage(1)
+var argv = require('minimist')(process.argv.slice(2))
 
-switch (cmd) {
-  case '-u':
-  case '--update':
-    require('./update')
-    break
-  case '-v':
-  case '--version':
-    version()
-    break
-  case '-h':
-  case '--help':
-    usage()
-    break
-  default:
-    if (!db.existsSync()) noCache()
-    else require('./query')
+if (argv.update || argv.u) {
+  require('./lib/update')(argv)
+} else if (argv.version || argv.v) {
+  version()
+} else if (argv.help || argv.h) {
+  usage()
+} else if (!db.existsSync()) {
+  noCache()
+} else {
+  require('./lib/query').apply(null, argv._)
 }
 
 function version () {
