@@ -9,9 +9,8 @@ var diff = require('ansi-diff-stream')()
 var clean = require('normalize-registry-metadata')
 var mkdirp = require('mkdirp')
 var afterAll = require('after-all')
-var name = require('./package').name
 var db = require('./lib/db')
-var debug = require('debug')(name)
+var debug = require('debug')(require('./package').name)
 
 mkdirp.sync(db.path)
 console.log('cache location:', db.path)
