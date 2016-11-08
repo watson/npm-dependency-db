@@ -37,7 +37,7 @@ function usage (code) {
   console.log('Examples:')
   console.log('  %s --update', pkg.name)
   console.log('  %s bluebird ^2.0.0', pkg.name)
-  process.exit(Number.isFinite(code) ? code : 0)
+  process.exit(code || 0)
 }
 
 function noCache () {
