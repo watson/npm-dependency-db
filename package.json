@@ -19,6 +19,7 @@
     "minimist": "^1.2.0",
     "mkdirp": "^0.5.1",
     "normalize-registry-metadata": "^1.1.2",
+    "parallel-transform": "^1.1.0",
     "progress-string": "^1.1.0",
     "semver": "^5.3.0",
     "through2": "^2.0.1"
