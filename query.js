@@ -1,14 +1,11 @@
 'use strict'
 
-var path = require('path')
-var levelup = require('level')
 var semver = require('semver')
-var Db = require('dependency-db')
+var db = require('./lib/db')
+var DepDb = require('dependency-db')
 
-var dbPath = path.join(process.env.HOME, '.' + require('./package').name)
-console.log('cache location:', dbPath)
-var _db = levelup(dbPath)
-var db = new Db(_db)
+console.log('cache location:', db.path)
+var depDb = new DepDb(db.level())
 
 var name = process.argv[2]
 var range = process.argv[3] || '*'
@@ -17,7 +14,7 @@ if (!name) throw new Error('missing required name')
 
 console.log('Looking up %s %s dependants...', name, range)
 
-db.query(name, range, function (err, pkgs) {
+depDb.query(name, range, function (err, pkgs) {
   if (err) throw err
 
   console.log('Found %d dependant package releases', pkgs.length)

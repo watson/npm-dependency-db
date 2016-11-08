@@ -1,26 +1,25 @@
 'use strict'
 
 var util = require('util')
-var path = require('path')
 var hypercore = require('hypercore')
-var levelup = require('level')
 var swarm = require('hyperdrive-archive-swarm')
-var Db = require('dependency-db')
+var DepDb = require('dependency-db')
 var progress = require('progress-string')
 var diff = require('ansi-diff-stream')()
 var clean = require('normalize-registry-metadata')
 var mkdirp = require('mkdirp')
 var afterAll = require('after-all')
 var name = require('./package').name
+var db = require('./lib/db')
 var debug = require('debug')(name)
 
-var dbPath = path.join(process.env.HOME, '.' + name)
-mkdirp.sync(dbPath)
-console.log('cache location:', dbPath)
-var _db = levelup(dbPath)
-var db = new Db(_db)
+mkdirp.sync(db.path)
+console.log('cache location:', db.path)
+
+var lvlDb = db.level()
+var depDb = new DepDb(lvlDb)
 var key = '503cf9e12d8ae49a07568d90f04bbdbfa3f1998ab97ed2b5143c1f3f69ec052f'
-var feed = hypercore(_db).createFeed(key, {sparse: true})
+var feed = hypercore(lvlDb).createFeed(key, {sparse: true})
 
 var state = {
   startBlock: 0,
@@ -34,7 +33,7 @@ swarm(feed)
 
 if (!debug.enabled) diff.pipe(process.stdout)
 
-_db.get('!last_block!', function (err, lastBlock) {
+lvlDb.get('!last_block!', function (err, lastBlock) {
   if (err && !err.notFound) throw err
 
   state.startBlock = state.processed = lastBlock ? Number(lastBlock) + 1 : 0
@@ -74,7 +73,7 @@ function processChanges (start) {
 
     var next = afterAll(function (err) {
       if (err) throw err
-      _db.put('!last_block!', state.processed++, function (err) {
+      lvlDb.put('!last_block!', state.processed++, function (err) {
         if (err) throw err
         printProgress()
       })
@@ -83,7 +82,7 @@ function processChanges (start) {
     Object.keys(doc.versions).forEach(function (version) {
       var pkg = doc.versions[version]
       debug('storing %s@%s (%d dependencies)...', pkg.name, pkg.version, pkg.dependencies ? Object.keys(pkg.dependencies).length : 0)
-      db.store(pkg, next())
+      depDb.store(pkg, next())
     })
   }
 }
