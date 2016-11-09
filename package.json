@@ -21,6 +21,7 @@
     "normalize-registry-metadata": "^1.1.2",
     "parallel-transform": "^1.1.0",
     "progress-string": "^1.2.0",
+    "pump": "^1.0.1",
     "semver": "^5.3.0",
     "through2": "^2.0.1"
   },
