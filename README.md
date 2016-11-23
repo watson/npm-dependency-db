@@ -14,6 +14,10 @@ npm install npm-dependency-db -g
 
 ## Usage
 
+```
+npm-dependency-db <options> | <name> [range]
+```
+
 First time you use `npm-dependency-db` you need to sync the npm
 dependency tree to a local cache by running:
 
@@ -40,6 +44,8 @@ could run:
 ```
 $ npm-dependency-db bluebird 2.x
 ```
+
+Run with `--help` option to see a complete list of options.
 
 ## License
 
