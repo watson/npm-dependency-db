@@ -35,6 +35,7 @@ function usage (code) {
   console.log('  --version, -v  output version')
   console.log('  --help, -h     output this help')
   console.log('  --update, -u   update the local cache')
+  console.log('  --live         don\'t exit the program to keep seeding')
   console.log()
   console.log('Examples:')
   console.log('  %s --update', pkg.name)
