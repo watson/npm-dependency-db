@@ -12,7 +12,7 @@ version (or version range) of a given npm package.
 npm install npm-dependency-db -g
 ```
 
-## Usage
+## CLI Usage
 
 ```
 npm-dependency-db <options> | <name> [range]
@@ -46,6 +46,21 @@ $ npm-dependency-db bluebird 2.x
 ```
 
 Run with `--help` option to see a complete list of options.
+
+## Programmatic Usage
+
+```js
+var Updater = require('npm-dependency-db/updater')
+var level = require('level')
+
+var db = level('./test.db')
+
+var updater = new Updater(db, {live: true})
+
+updater.on('processed', function (n) {
+  console.log('processed npm change number %d', n)
+})
+```
 
 ## License
 
