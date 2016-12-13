@@ -18,6 +18,7 @@ function Updater (db, opts) {
   var self = this
 
   if (!(this instanceof Updater)) return new Updater(db, opts)
+  if (!opts) opts = {}
 
   EventEmitter.call(this)
 
