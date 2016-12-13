@@ -26,7 +26,7 @@ function Updater (db, opts) {
   this._depDb = new DepDb(this._lvlDb)
 
   this.key = opts.key || '503cf9e12d8ae49a07568d90f04bbdbfa3f1998ab97ed2b5143c1f3f69ec052f'
-  this.live = opts.live
+  this.live = opts.live || false
   this.feed = hypercore(this._lvlDb).createFeed(this.key)
 
   this.startBlock = 0
