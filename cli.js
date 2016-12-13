@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 'use strict'
 
+var mkdirp = require('mkdirp')
 var pkg = require('./package')
 var db = require('./lib/db')
 
@@ -9,6 +10,8 @@ process.title = pkg.name
 var argv = require('minimist')(process.argv.slice(2))
 
 if (argv.update || argv.u) {
+  mkdirp.sync(db.path)
+  console.log('cache location:', db.path)
   require('./lib/update')(argv)
 } else if (argv.version || argv.v) {
   version()
@@ -17,6 +20,7 @@ if (argv.update || argv.u) {
 } else if (!db.existsSync()) {
   noCache()
 } else if (argv._.length > 0) {
+  console.log('cache location:', db.path)
   require('./lib/query').apply(null, argv._)
 } else {
   usage(1)
