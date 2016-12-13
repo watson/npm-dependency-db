@@ -22,7 +22,7 @@ function Updater (db, opts) {
 
   EventEmitter.call(this)
 
-  this._lvlDb = db.level()
+  this._lvlDb = db
   this._depDb = new DepDb(this._lvlDb)
 
   this.key = opts.key || '503cf9e12d8ae49a07568d90f04bbdbfa3f1998ab97ed2b5143c1f3f69ec052f'
