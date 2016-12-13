@@ -22,11 +22,12 @@ function Updater (db, opts) {
 
   EventEmitter.call(this)
 
-  this.lvlDb = db.level()
-  this.depDb = new DepDb(this.lvlDb)
+  this._lvlDb = db.level()
+  this._depDb = new DepDb(this._lvlDb)
+
   this.key = opts.key || '503cf9e12d8ae49a07568d90f04bbdbfa3f1998ab97ed2b5143c1f3f69ec052f'
   this.live = opts.live
-  this.feed = hypercore(this.lvlDb).createFeed(this.key)
+  this.feed = hypercore(this._lvlDb).createFeed(this.key)
 
   this.startBlock = 0
   this.currentBlock = 0
@@ -46,7 +47,7 @@ Updater.prototype._run = function () {
 
   swarm(this.feed)
 
-  this.lvlDb.get('!last_block!', function (err, lastBlock) {
+  this._lvlDb.get('!last_block!', function (err, lastBlock) {
     if (err && !err.notFound) return self.emit('error', err)
 
     self.processed = lastBlock = lastBlock ? Number(lastBlock) : 0
@@ -100,12 +101,12 @@ Updater.prototype._processChanges = function () {
     Object.keys(doc.versions).forEach(function (version) {
       var pkg = doc.versions[version]
       debug('storing %s@%s (%d dependencies)...', pkg.name, pkg.version, pkg.dependencies ? Object.keys(pkg.dependencies).length : 0)
-      self.depDb.store(pkg, next())
+      self._depDb.store(pkg, next())
     })
   }
 
   function recordLastBlock (data, enc, cb) {
-    self.lvlDb.put('!last_block!', data.block, function (err) {
+    self._lvlDb.put('!last_block!', data.block, function (err) {
       self.processed = data.block
       self.emit('processed', data.block)
       cb(err)
