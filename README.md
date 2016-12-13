@@ -62,6 +62,86 @@ updater.on('processed', function (n) {
 })
 ```
 
+## API
+
+### `Updater(db[, options])`
+
+Initialize the `Updater` with a level database and an optional `options`
+object.
+
+The following options are supported:
+
+- `key` - The hypercore key to create a feed from. Will default to a
+  hard-coded key
+- `live` - If `true`, the feed will be kept open while waiting for new
+  changes. Defaults to `false`
+
+### `Event: init`
+
+Emitted when `updater.processed`, `updater.startBlock` and
+`updater.currentBlock` have been populated.
+
+### `Event: running`
+
+Emitted when the `updater.feed` starts flowing.
+
+### `Event: downloaded`
+
+Emitted when a change object is received on the `updater.feed`.
+
+The first argument is the size of the change document in bytes.
+
+### `Event: processed`
+
+Emitted when a change object have been completely processed.
+
+The first argument is the hypercore block number containing the change
+that have been processed.
+
+### `Event: end`
+
+Emitted when there is nothing more to process. Will not be emitted if
+`options.live` is `true` unless an error occurs.
+
+### `Event: error`
+
+Emitted if an error occurs.
+
+The first arguemnt is the error.
+
+### `updater.feed`
+
+A hypercore feed. Contains all npm change objects. Each change is a
+block in the feed.
+
+### `updater.startBlock`
+
+The change (i.e. hypercore block number) where the feed will start to
+process in this instance of the `Updater`.
+
+### `updater.currentBlock`
+
+The change (i.e. hypercore block number) that is currently beeing
+processed.
+
+### `updater.feedLength`
+
+The number of changes in the feed.
+
+Gotcha: This number will grow if changes are discovered while the
+`Updater` is running.
+
+### `updater.remaining`
+
+The number of changes left to process in the feed.
+
+Gotcha: This number will grow if changes are discovered while the
+`Updater` is running.
+
+### `updater.processed`
+
+The number of changes processed so far in the feed.
+
 ## License
 
 MIT
