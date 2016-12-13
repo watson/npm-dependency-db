@@ -66,8 +66,8 @@ updater.on('processed', function (n) {
 
 ### `Updater(db[, options])`
 
-Initialize the `Updater` with a level database and an optional `options`
-object.
+Initialize the `Updater` with a LevelDB compatible database and an
+optional `options` object.
 
 The following options are supported:
 
