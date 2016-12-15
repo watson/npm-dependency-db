@@ -3,16 +3,16 @@
 
 var mkdirp = require('mkdirp')
 var pkg = require('./package')
-var db = require('./lib/db')
 
 process.title = pkg.name
 
 var argv = require('minimist')(process.argv.slice(2))
+var db = require('./lib/db')(argv.db)
 
 if (argv.update || argv.u) {
   mkdirp.sync(db.path)
   console.log('cache location:', db.path)
-  require('./lib/update')(argv)
+  require('./lib/update')(db.level(), argv)
 } else if (argv.version || argv.v) {
   version()
 } else if (argv.help || argv.h) {
@@ -21,7 +21,7 @@ if (argv.update || argv.u) {
   noCache()
 } else if (argv._.length > 0) {
   console.log('cache location:', db.path)
-  require('./lib/query').apply(null, argv._)
+  require('./lib/query')(db.level(), argv._[0], argv._[1])
 } else {
   usage(1)
 }
@@ -39,6 +39,7 @@ function usage (code) {
   console.log('  --version, -v  output version')
   console.log('  --help, -h     output this help')
   console.log('  --update, -u   update the local cache')
+  console.log('  --db=path      specify path to local cache')
   console.log('  --live         don\'t exit the program to keep seeding')
   console.log()
   console.log('Examples:')
