@@ -1,6 +1,6 @@
 {
   "name": "npm-dependency-db",
-  "version": "1.6.2",
+  "version": "1.6.3",
   "description": "Query npm dependents of a certain version or version range of a given package",
   "bin": "cli.js",
   "scripts": {
@@ -57,7 +57,7 @@
   },
   "homepage": "https://github.com/watson/npm-dependency-db#readme",
   "coordinates": [
-    55.6810312,
-    12.5643805
+    55.6810187,
+    12.564383
   ]
 }
