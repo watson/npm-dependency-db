@@ -6,6 +6,9 @@ version (or version range) of a given npm package.
 [![Build status](https://travis-ci.org/watson/npm-dependency-db.svg?branch=master)](https://travis-ci.org/watson/npm-dependency-db)
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat)](https://github.com/feross/standard)
 
+A hosted web version of this module exists at:
+[dependency.land](https://dependency.land).
+
 ## Installation
 
 ```
