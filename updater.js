@@ -84,7 +84,6 @@ Updater.prototype._processChanges = function () {
 
   function processChange (data, cb) {
     var block = self.currentBlock++
-    self.emit('downloaded', data.length)
     var change = JSON.parse(data)
     var doc = change.doc
     clean(doc)

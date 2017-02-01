@@ -88,12 +88,6 @@ Emitted when `updater.processed`, `updater.startBlock` and
 
 Emitted when the `updater.feed` starts flowing.
 
-### `Event: downloaded`
-
-Emitted when a change object is received on the `updater.feed`.
-
-The first argument is the size of the change document in bytes.
-
 ### `Event: processed`
 
 Emitted when a change object have been completely processed.
