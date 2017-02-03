@@ -85,14 +85,16 @@ Updater.prototype._processChanges = function () {
   function processChange (data, cb) {
     var block = self.currentBlock++
     var change = JSON.parse(data)
-    var doc = change.doc
-    clean(doc)
+    var doc = clean(change.doc)
 
     var next = afterAll(function (err) {
       cb(err, {block: block})
     })
 
-    if (!doc.versions || doc.versions.length === 0) {
+    if (!doc) {
+      debug('skipping %s - invalid document', change.id)
+      return
+    } else if (!doc.versions || doc.versions.length === 0) {
       debug('skipping %s - no versions detected', change.id)
       return
     }
