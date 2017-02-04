@@ -48,6 +48,13 @@ could run:
 $ npm-dependency-db bluebird 2.x
 ```
 
+E.g. to ask who depends on standard as a dev-dependency within the 7.x
+version range, you could run:
+
+```
+$ npm-dependency-db --dev standard 7
+```
+
 Run with `--help` option to see a complete list of options.
 
 ## Programmatic Usage

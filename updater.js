@@ -88,11 +88,13 @@ Updater.prototype._processPackages = function () {
     debug('storing %s@%s (%d dependencies, %d devDependencies)...',
       pkg.name,
       pkg.version,
-      pkg.dependencies ? Object.keys(pkg.dependencies).length : 0
+      pkg.dependencies ? Object.keys(pkg.dependencies).length : 0,
+      pkg.devDependencies ? Object.keys(pkg.devDependencies).length : 0
     )
 
     var shallowPkg = {name: pkg.name, version: pkg.version}
     if (pkg.dependencies) shallowPkg.dependencies = pkg.dependencies
+    if (pkg.devDependencies) shallowPkg.devDependencies = pkg.devDependencies
 
     self._depDb.store(shallowPkg, function (err) {
       cb(err, {block: block})
