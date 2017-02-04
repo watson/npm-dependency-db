@@ -8,7 +8,6 @@ var DepDb = require('dependency-db')
 var clean = require('normalize-registry-metadata')
 var transform = require('parallel-transform')
 var through = require('through2')
-var afterAll = require('after-all')
 var pump = require('pump')
 var debug = require('debug')(require('./package').name)
 
@@ -25,7 +24,7 @@ function Updater (db, opts) {
   this._lvlDb = db
   this._depDb = new DepDb(this._lvlDb)
 
-  this.key = opts.key || '8c9c84fe39710950dddf102519f847bc88724a9e9e9fd4f2e1017b700947cb55'
+  this.key = opts.key || 'accb1fdea4aa5a112e7a9cd702d0cef1ea84b4f683cd0b2dd58051059cf7da11'
   this.live = opts.live || false
   this.feed = hypercore(this._lvlDb).createFeed(this.key)
 
@@ -62,13 +61,13 @@ Updater.prototype._run = function () {
       self.feed.once('download', function () {
         self.feedLength = self.feed.blocks
         self.remaining = self.feed.blocksRemaining() + 1 // +1 because we already downloaded one
-        self._processChanges()
+        self._processPackages()
       })
     })
   })
 }
 
-Updater.prototype._processChanges = function () {
+Updater.prototype._processPackages = function () {
   var self = this
 
   this.emit('running')
@@ -77,32 +76,26 @@ Updater.prototype._processChanges = function () {
 
   pump(
     this.feed.createReadStream({start: this.startBlock, live: this.live}),
-    transform(10, processChange),
+    transform(10, processPackage),
     through.obj(recordLastBlock),
     onEnd
   )
 
-  function processChange (data, cb) {
+  function processPackage (pkg, cb) {
     var block = self.currentBlock++
-    var change = JSON.parse(data)
-    var doc = clean(change.doc)
+    pkg = JSON.parse(pkg)
 
-    var next = afterAll(function (err) {
+    debug('storing %s@%s (%d dependencies, %d devDependencies)...',
+      pkg.name,
+      pkg.version,
+      pkg.dependencies ? Object.keys(pkg.dependencies).length : 0
+    )
+
+    var shallowPkg = {name: pkg.name, version: pkg.version}
+    if (pkg.dependencies) shallowPkg.dependencies = pkg.dependencies
+
+    self._depDb.store(shallowPkg, function (err) {
       cb(err, {block: block})
-    })
-
-    if (!doc) {
-      debug('skipping %s - invalid document', change.id)
-      return
-    } else if (!doc.versions || doc.versions.length === 0) {
-      debug('skipping %s - no versions detected', change.id)
-      return
-    }
-
-    Object.keys(doc.versions).forEach(function (version) {
-      var pkg = doc.versions[version]
-      debug('storing %s@%s (%d dependencies)...', pkg.name, pkg.version, pkg.dependencies ? Object.keys(pkg.dependencies).length : 0)
-      self._depDb.store(pkg, next())
     })
   }
 
