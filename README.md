@@ -18,7 +18,7 @@ npm install npm-dependency-db -g
 ## CLI Usage
 
 ```
-npm-dependency-db <options> | <name> [range]
+npm-dependency-db [<name> [range]] [options]
 ```
 
 First time you use `npm-dependency-db` you need to sync the npm
@@ -34,7 +34,7 @@ from the npm database.
 To perform a query, run:
 
 ```
-$ npm-dependency-db <name> [range]
+$ npm-dependency-db <name> [range] [options]
 ```
 
 Where `<name>` is a name of the module you want to query and `[range]`
