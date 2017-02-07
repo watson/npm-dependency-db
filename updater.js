@@ -49,7 +49,7 @@ Updater.prototype._run = function () {
   this._lvlDb.get('!last_block!', function (err, lastBlock) {
     if (err && !err.notFound) return self.emit('error', err)
 
-    self.processed = lastBlock = lastBlock ? Number(lastBlock) : 0
+    self.processed = lastBlock = lastBlock ? parseInt(lastBlock, 10) : 0
     self.startBlock = self.currentBlock = lastBlock ? lastBlock + 1 : 0
     self.emit('init')
 
