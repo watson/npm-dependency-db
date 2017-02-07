@@ -9,6 +9,7 @@ var clean = require('normalize-registry-metadata')
 var transform = require('parallel-transform')
 var through = require('through2')
 var pump = require('pump')
+var sub = require('subleveldown')
 var debug = require('debug')(require('./package').name)
 
 module.exports = Updater
@@ -21,12 +22,12 @@ function Updater (db, opts) {
 
   EventEmitter.call(this)
 
-  this._lvlDb = db
-  this._depDb = new DepDb(this._lvlDb)
+  this._metaDb = sub(db, 'meta')
+  this._depDb = new DepDb(sub(db, 'depdb'))
 
   this.key = opts.key || 'accb1fdea4aa5a112e7a9cd702d0cef1ea84b4f683cd0b2dd58051059cf7da11'
   this.live = opts.live || false
-  this.feed = hypercore(this._lvlDb).createFeed(this.key, {sparse: true})
+  this.feed = hypercore(sub(db, 'core')).createFeed(this.key, {sparse: true})
 
   this.startBlock = 0
   this.currentBlock = 0
@@ -46,7 +47,7 @@ Updater.prototype._run = function () {
 
   swarm(this.feed)
 
-  this._lvlDb.get('!last_block!', function (err, lastBlock) {
+  this._metaDb.get('!last_block!', function (err, lastBlock) {
     if (err && !err.notFound) return self.emit('error', err)
 
     self.processed = lastBlock = lastBlock ? parseInt(lastBlock, 10) : 0
@@ -113,7 +114,7 @@ Updater.prototype._processPackages = function () {
   }
 
   function recordLastBlock (data, enc, cb) {
-    self._lvlDb.put('!last_block!', data.block, function (err) {
+    self._metaDb.put('!last_block!', data.block, function (err) {
       self.processed = data.block
       self.emit('processed', data.block)
       cb(err)
