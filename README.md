@@ -15,6 +15,12 @@ A hosted web version of this module exists at:
 npm install npm-dependency-db -g
 ```
 
+### Upgrading from previous versions
+
+If you are upgrading from versions older than v3, you might want to
+clear the local cache database located at `~/.npm-dependency-db` and
+re-import the data by running `npm-dependency-db --update`.
+
 ## CLI Usage
 
 ```
