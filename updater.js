@@ -5,7 +5,6 @@ var EventEmitter = require('events').EventEmitter
 var hypercore = require('hypercore')
 var swarm = require('hyperdrive-archive-swarm')
 var DepDb = require('dependency-db')
-var clean = require('normalize-registry-metadata')
 var transform = require('parallel-transform')
 var through = require('through2')
 var pump = require('pump')
