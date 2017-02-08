@@ -17,7 +17,7 @@ npm install npm-dependency-db -g
 
 ### Upgrading from previous versions
 
-If you are upgrading from versions older than v3, you might want to
+If you are upgrading from versions older than v4, you might want to
 clear the local cache database located at `~/.npm-dependency-db` and
 re-import the data by running `npm-dependency-db --update`.
 
@@ -91,6 +91,9 @@ The following options are supported:
   hard-coded key
 - `live` - If `true`, the feed will be kept open while waiting for new
   changes. Defaults to `false`
+- `npmDb` - Set to a levelDB instance to use separate levelDB to store
+  the raw npm feed. This will allow you to delete the indexed levelDB
+  database without having to re-download the entire npm feed
 
 ### `Event: init`
 

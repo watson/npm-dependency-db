@@ -26,7 +26,7 @@ function Updater (db, opts) {
 
   this.key = opts.key || 'accb1fdea4aa5a112e7a9cd702d0cef1ea84b4f683cd0b2dd58051059cf7da11'
   this.live = opts.live || false
-  this.feed = hypercore(sub(db, 'core')).createFeed(this.key, {sparse: true})
+  this.feed = hypercore(sub(opts.npmDb || db, 'core')).createFeed(this.key, {sparse: true})
 
   this.startBlock = 0
   this.currentBlock = 0

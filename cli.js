@@ -12,7 +12,8 @@ var db = require('./lib/db')(argv.db)
 if (argv.update || argv.u) {
   mkdirp.sync(db.path)
   console.log('cache location:', db.path)
-  require('./lib/update')(db.level(), argv)
+  argv.npmDb = db.hypercore()
+  require('./lib/update')(db.depdb(), argv)
 } else if (argv.version || argv.v) {
   version()
 } else if (argv.help || argv.h) {
@@ -21,7 +22,7 @@ if (argv.update || argv.u) {
   noCache()
 } else if (argv._.length > 0) {
   console.log('cache location:', db.path)
-  require('./lib/query')(db.level(), argv._[0], argv._[1], {devDependencies: argv.dev})
+  require('./lib/query')(db.depdb(), argv._[0], argv._[1], {devDependencies: argv.dev})
 } else {
   usage(1)
 }
