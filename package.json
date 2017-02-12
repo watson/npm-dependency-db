@@ -11,7 +11,7 @@
   "dependencies": {
     "ansi-diff-stream": "^1.1.1",
     "debug": "^2.3.0",
-    "dependency-db": "^5.0.1",
+    "dependency-db": "^5.0.2",
     "hypercore": "^4.16.0",
     "hyperdrive-archive-swarm": "^5.0.2",
     "level-party": "^3.0.4",
