@@ -160,20 +160,6 @@ process in this instance of the `Updater`.
 The change (i.e. hypercore block number) that is currently beeing
 processed.
 
-### `updater.feedLength`
-
-The number of changes in the feed.
-
-Gotcha: This number will grow if changes are discovered while the
-`Updater` is running.
-
-### `updater.remaining`
-
-The number of changes left to process in the feed.
-
-Gotcha: This number will grow if changes are discovered while the
-`Updater` is running.
-
 ### `updater.processed`
 
 The number of changes processed so far in the feed.

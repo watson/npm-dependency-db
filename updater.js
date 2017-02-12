@@ -31,8 +31,6 @@ function Updater (db, opts) {
 
   this.startBlock = 0
   this.currentBlock = 0
-  this.feedLength = 0
-  this.remaining = 0
   this.processed = 0
 
   process.nextTick(function () {
@@ -60,20 +58,14 @@ Updater.prototype._run = function () {
       debug('cache is open')
 
       if (self._indexOnly || self.feed.blocksRemaining()) {
-        start()
+        self._processPackages()
       } else {
         // make out-of-bounce read to make sure we are working on a new
         // hypercore snapshot
         self.feed.get(self.feed.blocks, function (err) {
           if (err) return self.emit('error', err)
-          start()
+          self._processPackages()
         })
-      }
-
-      function start () {
-        self.feedLength = self.feed.blocks
-        self.remaining = self.feed.blocksRemaining()
-        self._processPackages()
       }
     })
   })
