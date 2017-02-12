@@ -96,6 +96,12 @@ Updater.prototype._processPackages = function () {
     var block = self.currentBlock++
     pkg = JSON.parse(pkg)
 
+    if (!pkg.name || !pkg.version) {
+      debug('skipping invalid package: %s@%s', pkg.name, pkg.version)
+      cb()
+      return
+    }
+
     debug('storing %s@%s (%d dependencies, %d devDependencies)...',
       pkg.name,
       pkg.version,
