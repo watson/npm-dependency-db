@@ -22,7 +22,7 @@ if (argv.update || argv.u) {
   noCache()
 } else if (argv._.length > 0) {
   console.log('cache location:', db.path)
-  require('./lib/query')(db.depdb(), argv._[0], argv._[1], {devDependencies: argv.dev})
+  require('./lib/query')(db.depdb(), argv._[0], argv._[1], argv)
 } else {
   usage(1)
 }
@@ -48,6 +48,11 @@ function usage (code) {
   console.log()
   console.log('Query options:')
   console.log('  --dev          Query dev-dependencies')
+  console.log('  --all          Return all versions of all packages that matches the queried')
+  console.log('                 dependency')
+  console.log('  --highest      Return the highest version of each package that matches the')
+  console.log('                 queried dependency (even if it\'s not the most recent). Ignored')
+  console.log('                 if --all is used')
   console.log()
   console.log('Examples:')
   console.log('  %s --update', pkg.name)
