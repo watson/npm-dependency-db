@@ -115,7 +115,7 @@ The following options are supported:
 - `npmDb` - Set to a levelDB instance to use separate levelDB to store
   the raw npm feed. This will allow you to delete the indexed levelDB
   database without having to re-download the entire npm feed
-- `indexOnly` - Only built database index (do not download new blocks).
+- `indexOnly` - Only build database index (do not download new blocks).
   Defaults to `false`
 
 ### `Event: init`
