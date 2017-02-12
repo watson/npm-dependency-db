@@ -17,9 +17,9 @@ npm install npm-dependency-db -g
 
 ### Upgrading from previous versions
 
-If you are upgrading from versions older than v4, you might want to
-clear the local cache database located at `~/.npm-dependency-db` and
-re-import the data by running `npm-dependency-db --update`.
+If you are upgrading from version 4, you should reset the dependency-db
+database by deleting the `~/.npm-dependency-db/dependency-db` folder and
+then re-index the data by running `npm-dependency-db --update`.
 
 ## CLI Usage
 
