@@ -17,10 +17,30 @@ npm install npm-dependency-db -g
 
 ### Upgrading from previous versions
 
+#### Version 4
+
 If you are upgrading from version 4, you should reset the dependency-db
 database by deleting the `~/.npm-dependency-db/dependency-db` folder and
 then re-index the data by running `npm-dependency-db --update
 --indexOnly`.
+
+#### Version 3
+
+If you are upgrading from version 3, you can avoid re-downloading
+all the data by performing the following commands:
+
+```
+mv ~/.npm-dependency-db ~/.npm-dependency-db.tmp
+mkdir ~/.npm-dependency-db
+mv ~/.npm-dependency-db.tmp ~/.npm-dependency-db/hypercore
+npm-dependency-db --update --indexOnly
+```
+
+#### Version &lt;3
+
+If you are upgrading from versions older than v3, you need to completely
+purge the cache by deleting the entire `~/.npm-dependency-db` directory
+and reimport everything by running `npm-dependency-db --update`.
 
 ## CLI Usage
 
