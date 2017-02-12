@@ -21,7 +21,7 @@ if (argv.update || argv.u) {
 } else if (!db.existsSync()) {
   noCache()
 } else if (argv._.length > 0) {
-  console.log('cache location:', db.path)
+  if (!argv.csv) console.log('cache location:', db.path)
   require('./lib/query')(db.depdb(), argv._[0], argv._[1], argv)
 } else {
   usage(1)
@@ -47,6 +47,7 @@ function usage (code) {
   console.log('  --key=key      Use custom hypercore key')
   console.log()
   console.log('Query options:')
+  console.log('  --csv          Output results in CSV format')
   console.log('  --dev          Query dev-dependencies')
   console.log('  --all          Return all versions of all packages that matches the queried')
   console.log('                 dependency')
