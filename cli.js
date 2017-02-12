@@ -45,6 +45,7 @@ function usage (code) {
   console.log('  --update, -u   Update the local cache')
   console.log('  --live         Don\'t exit the program to keep seeding')
   console.log('  --key=key      Use custom hypercore key')
+  console.log('  --indexOnly    Build database index only (no downloading)')
   console.log()
   console.log('Query options:')
   console.log('  --csv          Output results in CSV format')

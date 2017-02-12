@@ -23,6 +23,7 @@ function Updater (db, opts) {
 
   this._metaDb = sub(db, 'meta')
   this._depDb = new DepDb(sub(db, 'depdb'))
+  this._indexOnly = opts.indexOnly
 
   this.key = opts.key || 'accb1fdea4aa5a112e7a9cd702d0cef1ea84b4f683cd0b2dd58051059cf7da11'
   this.live = opts.live || false
@@ -44,7 +45,7 @@ util.inherits(Updater, EventEmitter)
 Updater.prototype._run = function () {
   var self = this
 
-  swarm(this.feed)
+  if (!this._indexOnly) swarm(this.feed)
 
   this._metaDb.get('!last_block!', function (err, lastBlock) {
     if (err && !err.notFound) return self.emit('error', err)
@@ -58,7 +59,7 @@ Updater.prototype._run = function () {
 
       debug('cache is open')
 
-      if (self.feed.blocksRemaining()) {
+      if (self._indexOnly || self.feed.blocksRemaining()) {
         start()
       } else {
         // make out-of-bounce read to make sure we are working on a new
@@ -86,7 +87,7 @@ Updater.prototype._processPackages = function () {
   debug('processing changes from block %d', this.startBlock)
 
   pump(
-    this.feed.createReadStream({start: this.startBlock, live: this.live}),
+    this.feed.createReadStream({start: this.startBlock, live: this.live && !this._indexOnly}),
     transform(10, processPackage),
     through.obj(recordLastBlock),
     onEnd

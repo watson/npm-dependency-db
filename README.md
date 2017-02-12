@@ -19,7 +19,8 @@ npm install npm-dependency-db -g
 
 If you are upgrading from version 4, you should reset the dependency-db
 database by deleting the `~/.npm-dependency-db/dependency-db` folder and
-then re-index the data by running `npm-dependency-db --update`.
+then re-index the data by running `npm-dependency-db --update
+--indexOnly`.
 
 ## CLI Usage
 
@@ -90,10 +91,12 @@ The following options are supported:
 - `key` - The hypercore key to create a feed from. Will default to a
   hard-coded key
 - `live` - If `true`, the feed will be kept open while waiting for new
-  changes. Defaults to `false`
+  changes. Ignored if `indexOnly` is `true`. Defaults to `false`
 - `npmDb` - Set to a levelDB instance to use separate levelDB to store
   the raw npm feed. This will allow you to delete the indexed levelDB
   database without having to re-download the entire npm feed
+- `indexOnly` - Only built database index (do not download new blocks).
+  Defaults to `false`
 
 ### `Event: init`
 
