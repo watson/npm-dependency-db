@@ -29,7 +29,7 @@ function Updater (db, opts) {
 
   this.key = opts.key || 'accb1fdea4aa5a112e7a9cd702d0cef1ea84b4f683cd0b2dd58051059cf7da11'
   this.live = opts.live || false
-  this.feed = hypercore(hypercorePath, this.key)
+  this.feed = hypercore(hypercorePath, this.key, {maxRequests: 128})
 
   this.startBlock = 0
   this.currentBlock = 0
