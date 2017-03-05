@@ -120,6 +120,7 @@ Updater.prototype._processPackages = function () {
   }
 
   function onEnd (err) {
+    debug('pump ended %s error', err ? 'with' : 'without')
     if (err) self.emit('error', err)
     self.emit('end')
   }
