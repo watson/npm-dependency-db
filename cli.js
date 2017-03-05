@@ -10,8 +10,8 @@ var argv = require('minimist')(process.argv.slice(2))
 var db = require('./lib/db')(argv.db)
 
 if (argv.update || argv.u) {
-  mkdirp.sync(db.path)
-  console.log('cache location:', db.path)
+  mkdirp.sync(db.root)
+  console.log('cache location:', db.root)
   argv.npmDb = db.hypercore()
   require('./lib/update')(db.depdb(), argv)
 } else if (argv.version || argv.v) {
@@ -21,7 +21,7 @@ if (argv.update || argv.u) {
 } else if (!db.existsSync()) {
   noCache()
 } else if (argv._.length > 0) {
-  if (!argv.csv) console.log('cache location:', db.path)
+  if (!argv.csv) console.log('cache location:', db.root)
   require('./lib/query')(db.depdb(), argv._[0], argv._[1], argv)
 } else {
   usage(1)
@@ -64,7 +64,7 @@ function usage (code) {
 }
 
 function noCache () {
-  console.log('ERROR: Could not find a local cache at', db.path)
+  console.log('ERROR: Could not find a local cache at', db.root)
   console.log()
   console.log('Ensure that you update the local cache at least once via:')
   console.log('  %s --update', pkg.name)
