@@ -87,7 +87,7 @@ Updater.prototype._processPackages = function () {
   debug('processing changes from block %d', this.startBlock)
 
   pump(
-    this.feed.createReadStream({start: this.startBlock, live: this.live && !this._indexOnly}),
+    this.feed.createReadStream({start: this.startBlock, snapshot: false, live: this.live && !this._indexOnly}),
     transform(10, processPackage),
     through.obj(recordLastBlock),
     onEnd

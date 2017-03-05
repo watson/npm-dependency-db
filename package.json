@@ -12,7 +12,7 @@
     "ansi-diff-stream": "^1.1.1",
     "debug": "^2.3.0",
     "dependency-db": "^5.0.2",
-    "hypercore": "^5.0.3",
+    "hypercore": "^5.2.0",
     "hyperdrive-archive-swarm": "^5.0.2",
     "level-party": "^3.0.4",
     "minimist": "^1.2.0",
