@@ -112,9 +112,8 @@ The following options are supported:
   hard-coded key
 - `live` - If `true`, the feed will be kept open while waiting for new
   changes. Ignored if `indexOnly` is `true`. Defaults to `false`
-- `npmDb` - Set to a levelDB instance to use separate levelDB to store
-  the raw npm feed. This will allow you to delete the indexed levelDB
-  database without having to re-download the entire npm feed
+- `hypercorePath` - Path where to store the raw npm feed. Defaults to
+  `./npm-dependency-db.core`
 - `indexOnly` - Only build database index (do not download new blocks).
   Defaults to `false`
 

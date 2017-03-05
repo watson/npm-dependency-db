@@ -1,6 +1,7 @@
 'use strict'
 
 var util = require('util')
+var path = require('path')
 var EventEmitter = require('events').EventEmitter
 var hypercore = require('hypercore')
 var swarm = require('hyperdrive-archive-swarm')
@@ -18,6 +19,7 @@ function Updater (db, opts) {
 
   if (!(this instanceof Updater)) return new Updater(db, opts)
   if (!opts) opts = {}
+  var hypercorePath = opts.hypercorePath || path.join('.', 'npm-dependency-db.core')
 
   EventEmitter.call(this)
 
@@ -27,7 +29,7 @@ function Updater (db, opts) {
 
   this.key = opts.key || 'accb1fdea4aa5a112e7a9cd702d0cef1ea84b4f683cd0b2dd58051059cf7da11'
   this.live = opts.live || false
-  this.feed = hypercore(sub(opts.npmDb || db, 'core')).createFeed(this.key, {sparse: true})
+  this.feed = hypercore(hypercorePath, this.key)
 
   this.startBlock = 0
   this.currentBlock = 0
@@ -40,10 +42,16 @@ function Updater (db, opts) {
 
 util.inherits(Updater, EventEmitter)
 
+Updater.prototype.blocksRemaining = function () {
+  var remaining = 0
+  for (var i = 0; i < this.feed.length; i++) {
+    remaining += this.feed.has(i) ? 0 : 1
+  }
+  return remaining
+}
+
 Updater.prototype._run = function () {
   var self = this
-
-  if (!this._indexOnly) swarm(this.feed)
 
   this._metaDb.get('!last_block!', function (err, lastBlock) {
     if (err && !err.notFound) return self.emit('error', err)
@@ -52,17 +60,17 @@ Updater.prototype._run = function () {
     self.startBlock = self.currentBlock = lastBlock ? lastBlock + 1 : 0
     self.emit('init')
 
-    self.feed.open(function (err) {
-      if (err) return self.emit('error', err)
+    self.feed.ready(function () {
+      debug('cache is ready')
 
-      debug('cache is open')
+      if (!self._indexOnly) swarm(self.feed)
 
-      if (self._indexOnly || self.feed.blocksRemaining()) {
+      if (self._indexOnly || self.blocksRemaining()) {
         self._processPackages()
       } else {
         // make out-of-bounce read to make sure we are working on a new
         // hypercore snapshot
-        self.feed.get(self.feed.blocks, function (err) {
+        self.feed.get(self.feed.length, function (err) {
           if (err) return self.emit('error', err)
           self._processPackages()
         })
@@ -86,7 +94,7 @@ Updater.prototype._processPackages = function () {
   )
 
   function processPackage (pkg, cb) {
-    var block = self.currentBlock++
+    var index = self.currentBlock++
     pkg = JSON.parse(pkg)
 
     if (!pkg.name || !pkg.version) {
@@ -107,14 +115,14 @@ Updater.prototype._processPackages = function () {
     if (pkg.devDependencies) shallowPkg.devDependencies = pkg.devDependencies
 
     self._depDb.store(shallowPkg, function (err) {
-      cb(err, {block: block})
+      cb(err, {index: index})
     })
   }
 
   function recordLastBlock (data, enc, cb) {
-    self._metaDb.put('!last_block!', data.block, function (err) {
-      self.processed = data.block
-      self.emit('processed', data.block)
+    self._metaDb.put('!last_block!', data.index, function (err) {
+      self.processed = data.index
+      self.emit('processed', data.index)
       cb(err)
     })
   }

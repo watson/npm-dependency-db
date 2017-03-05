@@ -12,7 +12,7 @@ var db = require('./lib/db')(argv.db)
 if (argv.update || argv.u) {
   mkdirp.sync(db.root)
   console.log('cache location:', db.root)
-  argv.npmDb = db.hypercore()
+  argv.hypercorePath = db.hypercorePath
   require('./lib/update')(db.depdb(), argv)
 } else if (argv.version || argv.v) {
   version()
