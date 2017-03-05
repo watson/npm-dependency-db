@@ -125,7 +125,7 @@ Emitted when `updater.processed`, `updater.startBlock` and
 
 ### `Event: running`
 
-Emitted when the `updater.feed` starts flowing.
+Emitted when the `updater.feed` is ready.
 
 ### `Event: processed`
 
