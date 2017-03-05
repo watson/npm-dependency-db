@@ -27,7 +27,7 @@ function Updater (db, opts) {
   this._depDb = new DepDb(sub(db, 'depdb'))
   this._indexOnly = opts.indexOnly
 
-  this.key = opts.key || 'accb1fdea4aa5a112e7a9cd702d0cef1ea84b4f683cd0b2dd58051059cf7da11'
+  this.key = opts.key || 'f5d045813912dadbff4bdc8a43bb78da6685f965f1a88e430db49c793a5a1a01'
   this.live = opts.live || false
   this.feed = hypercore(hypercorePath, this.key, {maxRequests: 128})
 
