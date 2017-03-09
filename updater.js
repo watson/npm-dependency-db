@@ -4,7 +4,7 @@ var util = require('util')
 var path = require('path')
 var EventEmitter = require('events').EventEmitter
 var hypercore = require('hypercore')
-var swarm = require('hyperdrive-archive-swarm')
+var swarm = require('hyperdiscovery')
 var DepDb = require('dependency-db')
 var transform = require('parallel-transform')
 var through = require('through2')
@@ -63,7 +63,7 @@ Updater.prototype._run = function () {
     self.feed.ready(function () {
       debug('cache is ready')
 
-      if (!self._indexOnly) swarm(self.feed)
+      if (!self._indexOnly) swarm(self.feed, {live: self.live})
 
       if (self._indexOnly || self.blocksRemaining()) {
         self._processPackages()
