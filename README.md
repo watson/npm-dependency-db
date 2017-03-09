@@ -17,6 +17,12 @@ npm install npm-dependency-db -g
 
 ### Upgrading from previous versions
 
+#### Version 5
+
+If you are upgrading from version 5, you need to completely purge the
+cache by deleting the entire `~/.npm-dependency-db` directory and
+reimport everything by running `npm-dependency-db --update`.
+
 #### Version 4
 
 If you are upgrading from version 4, you should reset the dependency-db
