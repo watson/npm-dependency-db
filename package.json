@@ -11,8 +11,8 @@
   "dependencies": {
     "ansi-diff-stream": "^1.1.1",
     "debug": "^2.3.0",
-    "dependency-db": "^5.0.2",
-    "hypercore": "^5.4.2",
+    "dependency-db": "^5.1.4",
+    "hypercore": "^5.4.4",
     "hyperdiscovery": "^1.2.0",
     "level-party": "^3.0.4",
     "minimist": "^1.2.0",
