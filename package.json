@@ -16,7 +16,7 @@
     "hyperdiscovery": "^1.2.0",
     "level-party": "^3.0.4",
     "minimist": "^1.2.0",
-    "mkdirp": "^0.5.1",
+    "mkdirp": "^1.0.0",
     "parallel-transform": "^1.1.0",
     "prettier-bytes": "^1.0.3",
     "progress-string": "^1.2.0",
