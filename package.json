@@ -27,7 +27,7 @@
     "through2": "^2.0.1"
   },
   "devDependencies": {
-    "standard": "^9.0.0"
+    "standard": "^14.3.2"
   },
   "repository": {
     "type": "git",
